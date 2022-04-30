@@ -14,7 +14,7 @@ module StaticFile =
 [<RequireQualifiedAccess>]
 module Config =
     /// Returns the value of a configured variable using its key.
-    /// Retursn empty string when the value does not exist
+    /// Returns empty string when the value does not exist
     [<Emit("process.env[$0] ? process.env[$0] : ''")>]
     let variable (key: string) : string = jsNative
 
@@ -26,7 +26,7 @@ module Config =
         else foundValue
 
 /// Stylesheet API
-/// let private stylehsheet = Stylesheet.load "./fancy.module.css"
+/// let private stylesheet = Stylesheet.load "./fancy.module.css"
 /// stylesheet.["fancy-class-name"] which returns a string
 module Stylesheet =
 
