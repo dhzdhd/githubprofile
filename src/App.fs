@@ -2,23 +2,23 @@
 
 open Feliz
 open Fss
-open Feliz.Recoil
+open Feliz.Router
 
 type Home () =
+    static member private Fss () =
+       0
+
     [<ReactComponent>] 
     static member Index () =
-        let mainStyle =
-            fss [
-                Height.value (vh 100)
-                Width.value (vw 100)
-                BackgroundColor.black
-            ]
+        let currentUrl, updateUrl = React.useState (Router.currentUrl ())
         
-        Recoil.root [
-            Html.main [
-                prop.className mainStyle
-                prop.children [
-                    Html.div []
-                ]
+        React.router [
+            router.pathMode
+            router.onUrlChanged updateUrl
+            router.children [
+                match currentUrl with
+                | [] -> Components.Layout (Routes.Home ())
+                | [ "e" ] -> Html.h1 "e"
+                | otherwise -> Html.h1 "Not found"
             ]
         ]

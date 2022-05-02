@@ -204,3 +204,6 @@ out
 .ionide
 *.fs.js
 *.fs.js.map
+
+.vscode/
+.idea/
