@@ -14,9 +14,14 @@ module ThemeStore =
         { PrimaryColor = Color.Hex "#1d3557"
           SecondaryColor = Color.Hex "#457b9d"
           AccentColor = Color.Hex "#e63946" }
+        
+    let lightTheme =
+        { PrimaryColor = Color.Hex "#457b9d"
+          SecondaryColor = Color.Hex "#1d3557"
+          AccentColor = Color.Hex "#e63946" }
 
     type Model =
-        { theme: State }
+        { Theme: State }
      
     type ThemeType =
         | Light
@@ -27,13 +32,18 @@ module ThemeStore =
         | NoOp
        
     let init () =
-        { theme = darkTheme },
+        { Theme = darkTheme },
         Cmd.none
      
     let update (msg: Msg) (model: Model) =
         match msg with
         | SetTheme type_ ->
-            { model with theme = darkTheme }, Cmd.none
+            { model
+              with Theme =
+                    match type_ with
+                    | Dark -> darkTheme
+                    | Light -> lightTheme },
+            Cmd.none
         | NoOp ->
             model, Cmd.none
             

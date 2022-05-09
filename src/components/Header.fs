@@ -7,7 +7,8 @@ open Fss.Types
 type Components () =
     [<ReactComponent>]
     static member Header () =
-        let a = React.useReducer
+        let themeState = React.useContext ThemeStore.themeContext
+        let themeDispatch = React.useContext ThemeStore.themeDispatchContext
         
         let headerStyle = [
             Height.value (rem 5)
@@ -15,7 +16,13 @@ type Components () =
             FlexDirection.row
             JustifyContent.spaceBetween
             AlignItems.center
+            BackgroundColor.value themeState.Theme.PrimaryColor
             Padding.value (rem 0, rem 2)
+        ]
+        
+        let headingStyle = [
+            FontSize.xxLarge
+            Color.value themeState.Theme.SecondaryColor
         ]
             
         let containerStyle = [
@@ -37,15 +44,19 @@ type Components () =
             ]
         ]
         
-        let buttonStyle = [
+        let searchButtonStyle = [
             Height.value (rem 3)
             Width.value (rem 3)
             Border.none
             BorderRadius.value (rem 0, rem 0.5, rem 0.5, rem 0)
         ]
         
-        let headingStyle = [
-            FontSize.xxLarge
+        let themeButtonStyle = [
+            Height.value (rem 3)
+            Width.value (rem 3)
+            Border.none
+            BorderRadius.value (rem 0.2, rem 0.2, rem 0.2, rem 0.2)
+            MarginLeft.value (rem 2)
         ]
         
         Html.header [
@@ -63,10 +74,20 @@ type Components () =
                             prop.fss inputStyle
                         ]
                         Html.button [
-                            prop.fss buttonStyle
+                            prop.fss searchButtonStyle
                             prop.children [
                                 Html.span [
                                     prop.className "fas fa-search"
+                                ]
+                            ]
+                        ]
+                        Html.button [
+                            prop.fss themeButtonStyle
+                            prop.onClick (fun _ ->
+                                themeDispatch (ThemeStore.SetTheme ThemeStore.ThemeType.Light))
+                            prop.children [
+                                Html.span [
+                                    prop.className "fas fa-palette"
                                 ]
                             ]
                         ]
