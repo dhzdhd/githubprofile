@@ -11,6 +11,7 @@ type Components () =
             fss [
                 Height.value (Percent 100)
                 MinHeight.value (vh 100)
+                BackgroundColor.black
             ]
         
         React.fragment [

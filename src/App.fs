@@ -1,15 +1,14 @@
 ﻿namespace App
 
 open Feliz
+open Feliz.UseListener
 open Fss
 open Feliz.Router
+open Feliz.UseElmish
 
 type Home () =
-    static member private Fss () =
-       0
-
-    [<ReactComponent>] 
-    static member Index () =
+    [<ReactComponent>]
+    static member Router () =
         let currentUrl, updateUrl = React.useState (Router.currentUrl ())
         
         React.router [
@@ -22,3 +21,17 @@ type Home () =
                 | otherwise -> Html.h1 "Not found"
             ]
         ]
+    
+    [<ReactComponent>] 
+    static member Index () =
+        let state, dispatch = React.useElmish (ThemeStore.init, ThemeStore.update, [||])
+        React.contextProvider (
+            ThemeStore.themeContext,
+            state ,
+            React.contextProvider (
+                ThemeStore.themeDispatchContext,
+                dispatch,
+                Home.Router()
+            )
+        )        
+    
