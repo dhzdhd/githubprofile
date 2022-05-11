@@ -4,25 +4,7 @@ open Elmish
 open Feliz
 open Fss.Types
 
-module ThemeStore =    
-    type State =
-        { PrimaryColor: Color
-          SecondaryColor: Color
-          AccentColor: Color }
-        
-    let darkTheme =
-        { PrimaryColor = Color.Hex "#1d3557"
-          SecondaryColor = Color.Hex "#457b9d"
-          AccentColor = Color.Hex "#e63946" }
-        
-    let lightTheme =
-        { PrimaryColor = Color.Hex "#457b9d"
-          SecondaryColor = Color.Hex "#1d3557"
-          AccentColor = Color.Hex "#e63946" }
-
-    type Model =
-        { Theme: State }
-     
+module ThemeStore =
     type ThemeType =
         | Light
         | Dark
@@ -30,6 +12,30 @@ module ThemeStore =
     type Msg =
         | SetTheme of ThemeType
         | NoOp
+    
+    type State =
+        { PrimaryColor: Color
+          SecondaryColor: Color
+          TextColor: Color
+          AccentColor: Color
+          Type: ThemeType }
+        
+    let darkTheme =
+        { PrimaryColor = Color.Hex "#14213d"
+          SecondaryColor = Color.Hex "#1d3557"
+          TextColor = Color.Hex "#e5e5e5"
+          AccentColor = Color.Hex "#fca311"
+          Type = ThemeType.Dark }
+        
+    let lightTheme =
+        { PrimaryColor = Color.Hex "#e5e5e5"
+          SecondaryColor = Color.Hex "#edede9"
+          TextColor = Color.Hex "#14213d"
+          AccentColor = Color.Hex "#fca311"
+          Type = ThemeType.Light }
+
+    type Model =
+        { Theme: State }
        
     let init () =
         { Theme = darkTheme },

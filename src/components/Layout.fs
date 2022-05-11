@@ -9,9 +9,8 @@ type Components () =
     static member Layout (child: Fable.React.ReactElement) =
         let mainStyle =
             fss [
-                Height.value (Percent 100)
                 MinHeight.value (vh 100)
-                BackgroundColor.black
+                MaxWidth.value (vw 100)
             ]
         
         React.fragment [

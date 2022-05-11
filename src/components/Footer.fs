@@ -7,25 +7,21 @@ open Fss.Types
 type Components () =
     [<ReactComponent>]
     static member Footer () =
+        let themeState = React.useContext ThemeStore.themeContext
+        
         let footerStyle = [
             Height.value (rem 3)
-            BackgroundColor.white
+            BackgroundColor.value themeState.Theme.PrimaryColor
+            Color.value themeState.Theme.TextColor
             Display.flex
             FlexDirection.row
             AlignItems.center
             JustifyContent.center
-            Color.black
-            
-            Media.query [
-            Fss.Types.Media.PrefersColorScheme Fss.Types.Media.ColorScheme.Dark
-            ] [
-                Color.white
-                BackgroundColor.black
-            ]
          ] 
         
         let linkStyle = [
             TextDecoration.none
+            Color.value themeState.Theme.TextColor
          ]
         
         Html.footer [
