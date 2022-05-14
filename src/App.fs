@@ -16,6 +16,8 @@ type Home () =
         let containerStyle = [
             Height.value (vh 100)
             Display.flex
+            FlexDirection.column
+            GridGap.value (rem 1)
             AlignItems.center
             JustifyContent.center
             BackgroundColor.value themeState.Theme.PrimaryColor
@@ -26,14 +28,17 @@ type Home () =
                 prop.fss containerStyle
                 prop.children [
                     Html.h1 [
-                        prop.fss [ FontSize.xxxLarge; Color.value themeState.Theme.TextColor ]
+                        prop.fss [ FontSize.xxxLarge; Color.value themeState.Theme.AccentColor ]
+                        prop.text "404"
+                    ]
+                    Html.h2 [
+                        prop.fss [ FontSize.xxLarge; Color.value themeState.Theme.TextColor ]
                         prop.text "Page does not exist!"
                     ]
                 ]
             ]
         
         React.router [
-//            router.pathMode
             router.onUrlChanged updateUrl
             router.children [
                 match currentUrl with
