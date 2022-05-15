@@ -43,7 +43,7 @@ type Home () =
             router.children [
                 match currentUrl with
                 | [] -> Components.Layout (Routes.Home ())
-                | [ "search" ] -> Components.Layout (Routes.Search ())
+                | [ "search"; Route.Query ["user", value] ] -> Components.Layout (Routes.Search value)
                 | _ -> errorPage
             ]
         ]

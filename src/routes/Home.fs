@@ -25,8 +25,5 @@ type Routes () =
                     prop.fss [ FontSize.value (rem 4); Color.value themeState.Theme.TextColor ]
                     prop.text "Welcome to Github Profile"
                 ]
-//                Html.h2 [
-//                    prop.text "e"
-//                ]
             ]
         ]

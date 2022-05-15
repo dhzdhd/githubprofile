@@ -6,14 +6,24 @@ open Fss.Types
 
 type Routes () =
     [<ReactComponent>]
-    static member Search () =
+    static member Search userQuery =
         let themeState = React.useContext ThemeStore.themeContext
         let userInfo, setUserInfo = React.useState None
         
         let effect () =
-            if userInfo = None then 
-                Api.getData "dhzdhd" setUserInfo
-            ()
+            match userInfo with
+            | None -> 
+                Api.getData userQuery setUserInfo
+            | Some x ->
+                match x with
+                | Ok (info, _) ->
+                    match info.Login with
+                    | x when x.ToLower() = userQuery -> ()
+                    | _ -> Api.getData userQuery setUserInfo
+                | Error err ->
+                    match err.User with
+                    | x when x.ToLower() = userQuery -> ()
+                    | _ -> Api.getData userQuery setUserInfo
             
         (React.useEffect effect, [||]) |> ignore
         
@@ -23,6 +33,14 @@ type Routes () =
             Padding.value (rem 7, rem 3, rem 3, rem 3)
             Display.flex
             BackgroundColor.value themeState.Theme.SecondaryColor
+            Color.value themeState.Theme.TextColor
+        ]
+        
+        let errorContainerStyle = [
+            yield! containerStyle
+            AlignItems.center
+            JustifyContent.center
+            FontSize.xxxLarge
             Color.value themeState.Theme.TextColor
         ]
         
@@ -45,7 +63,7 @@ type Routes () =
             TransitionDuration.value (sec 0.5)
             
             Hover [
-                BorderRadius.value (Percent 0)
+                BorderRadius.value (Percent 5)
             ]
         ]
         
@@ -58,58 +76,79 @@ type Routes () =
         ]
         
         match userInfo with
-        | Some (user, repo) ->  
-            Html.div [
-                prop.fss containerStyle
-                prop.children [
-                    Html.section [
-                        prop.fss firstSectionStyle
-                        prop.children [
-                            Html.div [
-                                prop.fss imageContainerStyle
-                                prop.children [
-                                    Html.img [
-                                        prop.src user.AvatarUrl
-                                        prop.alt "Avatar"
-                                        prop.fss imageStyle
+        | Some res ->
+            match res with
+            | Ok (user, repo) ->
+                Html.div [
+                    prop.fss containerStyle
+                    prop.children [
+                        Html.section [
+                            prop.fss firstSectionStyle
+                            prop.children [
+                                Html.div [
+                                    prop.fss imageContainerStyle
+                                    prop.children [
+                                        Html.img [
+                                            prop.src user.AvatarUrl
+                                            prop.alt "Avatar"
+                                            prop.fss imageStyle
+                                        ]
                                     ]
                                 ]
-                            ]
-                            Html.div [
-                                prop.fss userContainerStyle
-                                prop.children [
-                                    Html.a [
-                                        prop.fss [ Color.value themeState.Theme.AccentColor; FontSize.xxxLarge ]
-                                        prop.text $"@{user.Login}"
-                                        prop.href user.HtmlUrl
-                                        prop.target "_blank"
-                                    ]
-                                    Html.p [
-                                        prop.text user.Bio.Value
-                                        prop.fss [ FontSize.xLarge ]
-                                    ]
-                                    Html.div [
-                                        prop.fss [Display.flex; AlignItems.center; GridGap.value (rem 1)]
-                                        prop.children [
-                                            Html.span [
-                                                prop.className "fas fa-calendar"
-                                            ]
-                                            Html.span [
-                                                prop.text (user.CreatedAt.Substring (0, 10))
+                                Html.div [
+                                    prop.fss userContainerStyle
+                                    prop.children [
+                                        Html.a [
+                                            prop.fss [ Color.value themeState.Theme.AccentColor; FontSize.xxxLarge ]
+                                            prop.text $"@{user.Login}"
+                                            prop.href user.HtmlUrl
+                                            prop.target "_blank"
+                                        ]
+                                        Html.p [
+                                            match user.Bio with
+                                            | Some bio -> prop.text bio
+                                            | None -> prop.text "No bio"
+                                            prop.fss [ FontSize.xLarge ]
+                                        ]
+                                        Html.div [
+                                            prop.fss [Display.flex; AlignItems.center; GridGap.value (rem 1)]
+                                            prop.children [
+                                                Html.span [
+                                                    prop.className "fas fa-calendar"
+                                                ]
+                                                Html.span [
+                                                    prop.text (user.CreatedAt.Substring (0, 10))
+                                                ]
                                             ]
                                         ]
                                     ]
                                 ]
                             ]
                         ]
+                        Html.section [
+                            
+                        ]
+                        Html.section [
+                            
+                        ]
                     ]
-                    Html.section [
-                        
+                ]
+            | Error err ->
+                Html.div [
+                    prop.fss errorContainerStyle
+                    prop.children [
+                        Html.h1 [
+                            prop.fss [ FontSize.xxxLarge ]
+                            prop.text "User not found"
+                        ]
                     ]
-                    Html.section [
-                        
+                ]
+        | None ->
+            Html.div [
+                prop.fss errorContainerStyle
+                prop.children [
+                    Html.span [
+                        prop.className "fa-solid fa-spinner"
                     ]
                 ]
             ]
-        | None ->
-            Html.h1 [ prop.text "Loading" ]

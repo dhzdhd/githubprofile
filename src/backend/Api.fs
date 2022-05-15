@@ -28,12 +28,15 @@ module Api =
           ForksCount: int
           Archived: bool
           OpenIssuesCount: int
-          License: Option<{| Name: string; Url: string |}>
           Topics: List<string>
           Forks: int
           StargazersCount: int }
+      
+    type Error =
+        { Message: string
+          User: string }
     
-    let getData (user: string) (func: (User * List<Repository>) option -> unit) =
+    let getData (user: string) (func: Result<User * List<Repository>, Error> option -> unit) =
         let url = $"https://api.github.com/users/{user}"
         
         async {
@@ -54,12 +57,12 @@ module Api =
                 
                 match decodedUser, decodedRepo with
                 | Ok user, Ok repo ->
-                    func (Some (user, repo))
-                    printfn "set"
-                | Error errUser, Error errRepo -> func None
-                | _, _ -> func None
+                    func (Some (Ok (user, repo)))
+                    printfn $"{user}"
+                | Error errUser, _ ->
+                    func (Some (Error { Message = errUser; User = user }))
+                | _, Error errRepo ->
+                    func (Some (Error { Message = errRepo; User = user }))
             | _ ->
                 func None
-                
-            ()
         } |> Async.Start
