@@ -7,7 +7,7 @@ module Api =
     type User =
         { Name: string
           Login: string
-          Avatar: Option<string>
+          AvatarUrl: string
           HtmlUrl: string
           Blog: Option<string>
           Location: Option<string>
@@ -15,7 +15,8 @@ module Api =
           Bio: Option<string>
           PublicRepos: int
           Followers: int
-          Following: int }
+          Following: int
+          CreatedAt: string }
         
     type Repository =
         { Name: string
@@ -23,18 +24,16 @@ module Api =
           HtmlUrl: string
           Description: Option<string>
           Fork: bool
-          Language: string
+          Language: Option<string>
           ForksCount: int
           Archived: bool
           OpenIssuesCount: int
-          License: {| Key: string
-                      Name: string
-                      Url: string |}
+          License: Option<{| Name: string; Url: string |}>
           Topics: List<string>
           Forks: int
           StargazersCount: int }
     
-    let getData (user: string) =
+    let getData (user: string) (func: (User * List<Repository>) option -> unit) =
         let url = $"https://api.github.com/users/{user}"
         
         async {
@@ -48,16 +47,19 @@ module Api =
                 |> Http.method GET
                 |> Http.send
                 
-            printfn $"{repoResponse.content}"
-            
             match userResponse.content, repoResponse.content with
             | ResponseContent.Text rawUser, ResponseContent.Text rawRepo ->
                 let decodedUser = Decode.Auto.fromString<User> (rawUser, caseStrategy = SnakeCase)
                 let decodedRepo = Decode.Auto.fromString<List<Repository>> (rawRepo, caseStrategy = SnakeCase)
+                
                 match decodedUser, decodedRepo with
-                | Ok user, Ok repo -> Some (user, repo)
-                | Error errUser, Error errRepo -> None
-                | _, _ -> None
+                | Ok user, Ok repo ->
+                    func (Some (user, repo))
+                    printfn "set"
+                | Error errUser, Error errRepo -> func None
+                | _, _ -> func None
             | _ ->
-                None
+                func None
+                
+            ()
         } |> Async.Start
