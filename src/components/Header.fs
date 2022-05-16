@@ -1,6 +1,5 @@
 ﻿namespace App
 
-open Browser.Types
 open Feliz
 open Feliz.Router
 open Fss

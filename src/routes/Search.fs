@@ -83,6 +83,7 @@ type Routes () =
                     prop.fss containerStyle
                     prop.children [
                         Html.section [
+                            prop.id "about"
                             prop.fss firstSectionStyle
                             prop.children [
                                 Html.div [
@@ -126,14 +127,14 @@ type Routes () =
                             ]
                         ]
                         Html.section [
-                            
+                            prop.id "graphs"
                         ]
                         Html.section [
-                            
+                            prop.id "repos"
                         ]
                     ]
                 ]
-            | Error err ->
+            | Error _ ->
                 Html.div [
                     prop.fss errorContainerStyle
                     prop.children [
