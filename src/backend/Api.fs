@@ -36,7 +36,7 @@ module Api =
         { Message: string
           User: string }
     
-    let getData (user: string) (func: Result<User * List<Repository>, Error> option -> unit) =
+    let getData (user: string) (func: Option<Result<User * List<Repository>, Error>> -> unit) =
         let url = $"https://api.github.com/users/{user}"
         
         async {

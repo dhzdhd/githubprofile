@@ -10,6 +10,7 @@ type Components () =
     static member Header () =
         let themeState = React.useContext ThemeStore.themeContext
         let themeDispatch = React.useContext ThemeStore.themeDispatchContext
+        let input, setInput = React.useState ""
         
         let headerStyle = [
             Height.value (rem 5)
@@ -96,10 +97,12 @@ type Components () =
                         Html.input [
                             prop.type'.search
                             prop.fss inputStyle
+                            prop.value input
+                            prop.onChange setInput
                         ]
                         Html.button [
                             prop.fss searchButtonStyle
-                            prop.onClick (fun _ -> Router.navigate "search")
+                            prop.onClick (fun _ -> Router.navigate ("search", ["user", input]))
                             prop.children [
                                 Html.span [
                                     prop.className "fas fa-search"
