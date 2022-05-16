@@ -1,5 +1,6 @@
 ﻿namespace App
 
+open Browser.Types
 open Feliz
 open Feliz.Router
 open Fss
@@ -38,12 +39,15 @@ type Components () =
             
         let inputStyle =  [
             Height.value (rem 3)
+            MaxWidth.value (rem 15)
             BackgroundColor.value themeState.Theme.SecondaryColor
             Color.value themeState.Theme.TextColor
+            Padding.value (rem 0, rem 0.5, rem 0, rem 0.5)
             BorderWidth.value (rem 0.1)
             BorderStyle.solid
             BorderColor.value themeState.Theme.AccentColor
             BorderRadius.value (rem 0.5, rem 0, rem 0, rem 0.5)
+            FontSize.large
             
             Focus [
                 BorderWidth.value (rem 0.2)
@@ -73,9 +77,10 @@ type Components () =
         Html.header [
             prop.fss headerStyle
             prop.children [
-                Html.span [
+                Html.a [
                     prop.text "Github Profile"
                     prop.fss headingStyle
+                    prop.href "/"
                 ]
                 Html.div [
                     prop.fss containerStyle
@@ -95,10 +100,11 @@ type Components () =
                             ]
                         ]
                         Html.input [
-                            prop.type'.search
                             prop.fss inputStyle
                             prop.value input
                             prop.onChange setInput
+                            prop.onKeyPress (fun key ->
+                                if key.which = 13 then Router.navigate ("search", ["user", input]))
                         ]
                         Html.button [
                             prop.fss searchButtonStyle
