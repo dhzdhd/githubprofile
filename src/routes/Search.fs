@@ -1,5 +1,6 @@
 ﻿namespace App
 
+open Fable.React.Isomorphic
 open Feliz
 open Fss
 open Fss.Types
@@ -32,6 +33,8 @@ type Routes () =
             Width.value (Percent 100)
             Padding.value (rem 7, rem 3, rem 3, rem 3)
             Display.flex
+            FlexDirection.column
+            GridGap.value (rem 5)
             BackgroundColor.value themeState.Theme.SecondaryColor
             Color.value themeState.Theme.TextColor
         ]
@@ -45,9 +48,24 @@ type Routes () =
         ]
         
         let firstSectionStyle = [
-            Display.flex
-            FlexDirection.row
             Width.value (Percent 100)
+            PaddingTop.value (rem 2)
+            Display.flex
+            FlexGrow.value 0
+            JustifyContent.center
+        ]
+        
+        let centeredContainerStyle = [
+            Width.value (rem 60)
+            MaxWidth.value (rem 60)
+            Display.flex
+            FlexDirection.column
+            GridGap.value (rem 2)
+                        
+            Media.query [Types.Media.MinWidth Utils.md] [
+                FlexDirection.row
+                GridGap.normal
+            ]
         ]
         
         let imageContainerStyle = [
@@ -87,38 +105,50 @@ type Routes () =
                             prop.fss firstSectionStyle
                             prop.children [
                                 Html.div [
-                                    prop.fss imageContainerStyle
+                                    prop.fss centeredContainerStyle
                                     prop.children [
-                                        Html.img [
-                                            prop.src user.AvatarUrl
-                                            prop.alt "Avatar"
-                                            prop.fss imageStyle
-                                        ]
-                                    ]
-                                ]
-                                Html.div [
-                                    prop.fss userContainerStyle
-                                    prop.children [
-                                        Html.a [
-                                            prop.fss [ Color.value themeState.Theme.AccentColor; FontSize.xxxLarge ]
-                                            prop.text $"@{user.Login}"
-                                            prop.href user.HtmlUrl
-                                            prop.target "_blank"
-                                        ]
-                                        Html.p [
-                                            match user.Bio with
-                                            | Some bio -> prop.text bio
-                                            | None -> prop.text "No bio"
-                                            prop.fss [ FontSize.xLarge ]
+                                        Html.div [
+                                            prop.fss imageContainerStyle
+                                            prop.children [
+                                                Html.img [
+                                                    prop.src user.AvatarUrl
+                                                    prop.alt "Avatar"
+                                                    prop.fss imageStyle
+                                                ]
+                                            ]
                                         ]
                                         Html.div [
-                                            prop.fss [Display.flex; AlignItems.center; GridGap.value (rem 1)]
+                                            prop.fss userContainerStyle
                                             prop.children [
-                                                Html.span [
-                                                    prop.className "fas fa-calendar"
+                                                Html.a [
+                                                    prop.fss [ Color.value themeState.Theme.AccentColor; FontSize.xxxLarge ]
+                                                    prop.text $"@{user.Login}"
+                                                    prop.href user.HtmlUrl
+                                                    prop.target "_blank"
                                                 ]
-                                                Html.span [
-                                                    prop.text (user.CreatedAt.Substring (0, 10))
+                                                Html.p [
+                                                    match user.Bio with
+                                                    | Some bio -> prop.text bio
+                                                    | None -> prop.text "No bio"
+                                                    prop.fss [ FontSize.xLarge ]
+                                                ]
+                                                Html.div [
+                                                    prop.fss [ Display.flex; AlignItems.center; GridGap.value (rem 1) ]
+                                                    prop.children [
+                                                        Html.span [
+                                                            prop.className "fas fa-calendar"
+                                                        ]
+                                                        Html.span [
+                                                            prop.text (user.CreatedAt.Substring (0, 10))
+                                                        ]
+                                                    ]
+                                                ]
+                                                Html.div [
+                                                    prop.fss [ Display.flex; GridGap.value (rem 1); PaddingTop.value (rem 1) ]
+                                                    prop.children [
+                                                        Components.InfoBox "Followers" user.Followers
+                                                        Components.InfoBox "Following" user.Following
+                                                    ]
                                                 ]
                                             ]
                                         ]
@@ -128,6 +158,11 @@ type Routes () =
                         ]
                         Html.section [
                             prop.id "graphs"
+                            prop.children [
+                                Html.h1 [
+                                    prop.text "hmm"
+                                ]
+                            ]
                         ]
                         Html.section [
                             prop.id "repos"

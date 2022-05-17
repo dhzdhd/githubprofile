@@ -5,6 +5,7 @@
     <ItemGroup>
         <None Include="index.html" />
         <None Include="styles\global.sass" />
+        <Compile Include="Utils.fs" />
         <Compile Include="Extensions.fs" />
         <Compile Include="backend\Api.fs" />
         <Compile Include="stores\Theme.fs" />
@@ -12,6 +13,7 @@
         <Compile Include="components\Header.fs" />
         <Compile Include="components\Footer.fs" />
         <Compile Include="components\Layout.fs" />
+        <Compile Include="components\InfoBox.fs" />
         <Compile Include="routes\Home.fs" />
         <Compile Include="routes\Search.fs" />
         <Compile Include="App.fs" />
