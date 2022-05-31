@@ -157,11 +157,10 @@ type Routes () =
                             ]
                         ]
                         Html.section [
+                            prop.fss [ Display.grid; GridAutoFlow.row ]
                             prop.id "graphs"
                             prop.children [
-                                Html.h1 [
-                                    prop.text "hmm"
-                                ]
+                                Components.Card repo 
                             ]
                         ]
                         Html.section [

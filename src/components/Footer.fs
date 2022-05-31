@@ -14,6 +14,7 @@ type Components () =
             BackgroundColor.value themeState.Theme.PrimaryColor
             Color.value themeState.Theme.TextColor
             Display.flex
+            GridGap.value (rem 2)
             FlexDirection.row
             AlignItems.center
             JustifyContent.center
@@ -27,6 +28,9 @@ type Components () =
         Html.footer [
             prop.fss footerStyle
             prop.children [
+                Html.span [
+                    prop.text "Built with Feliz + F#"
+                ]
                 Html.a [
                     prop.fss linkStyle
                     prop.href "https://github.com/dhzdhd/githubprofile"

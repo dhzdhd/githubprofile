@@ -14,6 +14,7 @@
         <PackageReference Include="Fable.ReactStore" Version="1.0.0-beta-005" />
         <PackageReference Include="Fable.SimpleHttp" Version="3.1.0" />
         <PackageReference Include="Feliz.Kawaii" Version="1.0.0" />
+        <PackageReference Include="Feliz.Recharts" Version="3.12.0" />
         <PackageReference Include="Feliz.UseElmish" Version="1.6.0" />
         <PackageReference Include="FsHttp" Version="9.1.1" />
         <PackageReference Include="Thoth.Json" Version="7.0.0" />

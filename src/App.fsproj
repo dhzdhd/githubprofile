@@ -14,6 +14,7 @@
         <Compile Include="components\Footer.fs" />
         <Compile Include="components\Layout.fs" />
         <Compile Include="components\InfoBox.fs" />
+        <Compile Include="components\ChartCard.fs" />
         <Compile Include="routes\Home.fs" />
         <Compile Include="routes\Search.fs" />
         <Compile Include="App.fs" />
@@ -22,6 +23,7 @@
     <ItemGroup>
         <PackageReference Include="Fable.SimpleHttp" Version="3.1.0" />
         <PackageReference Include="Feliz" Version="1.57.0" />
+        <PackageReference Include="Feliz.Recharts" Version="3.12.0" />
         <PackageReference Include="Feliz.Router" Version="3.8.0" />
         <PackageReference Include="Fable.DateFunctions" Version="3.8.1" />
         <PackageReference Include="Feliz.UseElmish" Version="1.6.0" />

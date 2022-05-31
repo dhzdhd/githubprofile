@@ -25,8 +25,12 @@ type Components () =
         ]
         
         let headingStyle = [
-            FontSize.xxLarge
             Color.value themeState.Theme.TextColor
+            FontSize.xLarge
+            
+            Media.query [Types.Media.MinWidth Utils.md] [
+                FontSize.xxLarge
+            ]
         ]
             
         let containerStyle = [
@@ -38,7 +42,7 @@ type Components () =
             
         let inputStyle =  [
             Height.value (rem 3)
-            MaxWidth.value (rem 15)
+            MaxWidth.value (rem 8)
             BackgroundColor.value themeState.Theme.SecondaryColor
             Color.value themeState.Theme.TextColor
             Padding.value (rem 0, rem 0.5, rem 0, rem 0.5)
@@ -50,6 +54,10 @@ type Components () =
             
             Focus [
                 BorderWidth.value (rem 0.2)
+            ]
+            
+            Media.query [Types.Media.MinWidth Utils.md] [
+                MaxWidth.value (rem 15)
             ]
         ]
         
