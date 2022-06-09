@@ -22,6 +22,7 @@ type Components () =
             AlignItems.center
             BackgroundColor.value themeState.Theme.PrimaryColor
             Padding.value (rem 0, rem 2)
+            ZIndex.value 100
         ]
         
         let headingStyle = [

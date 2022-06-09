@@ -28,8 +28,8 @@ module ThemeStore =
           Type = ThemeType.Dark }
         
     let lightTheme =
-        { PrimaryColor = Color.Hex "#e5e5e5"
-          SecondaryColor = Color.Hex "#edede9"
+        { PrimaryColor = Color.Hex "#d7e3fc"
+          SecondaryColor = Color.Hex "#edf2fb"
           TextColor = Color.Hex "#14213d"
           AccentColor = Color.Hex "#fca311"
           Type = ThemeType.Light }

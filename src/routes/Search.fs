@@ -31,7 +31,7 @@ type Routes () =
         let containerStyle = [
             MinHeight.value (vh 100)
             Width.value (Percent 100)
-            Padding.value (rem 7, rem 3, rem 3, rem 3)
+            Padding.value (rem 7, rem 2, rem 3, rem 2)
             Display.flex
             FlexDirection.column
             GridGap.value (rem 5)
