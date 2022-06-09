@@ -182,8 +182,35 @@ type Routes () =
             Html.div [
                 prop.fss errorContainerStyle
                 prop.children [
-                    Html.span [
-                        prop.className "fa-solid fa-spinner"
+                    Html.div [
+                        prop.fss [
+                            Label "Rotate"
+                            AnimationName.value (keyframes [
+                                frame 0 [ Transform.value [Transform.rotate (deg 0)] ]
+                                frame 100 [ Transform.value [Transform.rotate (deg 360)] ]
+                            ])
+                            AnimationDuration.value (sec 1)
+                            AnimationIterationCount.infinite
+                        ]
+                        prop.children [
+                            Svg.svg [
+                                svg.xmlns "http://www.w3.org/2000/svg"
+                                svg.viewBox (0, 0, 50, 50)
+                                svg.width 50
+                                svg.height 50
+                                svg.children [
+                                    Svg.circle [
+                                        svg.r 10
+                                        svg.cx 25
+                                        svg.cy 25
+                                        svg.fill (if themeState.Theme.Type = ThemeStore.ThemeType.Dark
+                                                  then "#ffffff"
+                                                  else "#000000")
+                                        svg.strokeWidth 2
+                                    ]
+                                ]
+                            ]
+                        ]
                     ]
                 ]
             ]

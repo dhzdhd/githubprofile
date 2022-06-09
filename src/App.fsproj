@@ -15,6 +15,7 @@
         <Compile Include="components\Layout.fs" />
         <Compile Include="components\InfoBox.fs" />
         <Compile Include="components\ChartCard.fs" />
+        <Compile Include="components\RepoCard.fs" />
         <Compile Include="routes\Home.fs" />
         <Compile Include="routes\Search.fs" />
         <Compile Include="App.fs" />
