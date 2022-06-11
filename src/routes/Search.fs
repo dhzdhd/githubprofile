@@ -165,6 +165,9 @@ type Routes () =
                         ]
                         Html.section [
                             prop.id "repos"
+                            prop.children [
+                                Components.RepoCard repo.Head 
+                            ]
                         ]
                     ]
                 ]
@@ -200,7 +203,7 @@ type Routes () =
                                 svg.height 50
                                 svg.children [
                                     Svg.circle [
-                                        svg.r 10
+                                        svg.r 5
                                         svg.cx 25
                                         svg.cy 25
                                         svg.fill (if themeState.Theme.Type = ThemeStore.ThemeType.Dark

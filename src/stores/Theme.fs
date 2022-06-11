@@ -24,14 +24,14 @@ module ThemeStore =
         { PrimaryColor = Color.Hex "#14213d"
           SecondaryColor = Color.Hex "#1d3557"
           TextColor = Color.Hex "#e5e5e5"
-          AccentColor = Color.Hex "#fca311"
+          AccentColor = Color.Hex "#fb8500"
           Type = ThemeType.Dark }
         
     let lightTheme =
         { PrimaryColor = Color.Hex "#d7e3fc"
           SecondaryColor = Color.Hex "#edf2fb"
           TextColor = Color.Hex "#14213d"
-          AccentColor = Color.Hex "#fca311"
+          AccentColor = Color.Hex "#fb8500"
           Type = ThemeType.Light }
 
     type Model =
