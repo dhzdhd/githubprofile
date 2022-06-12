@@ -1,8 +1,6 @@
 ﻿namespace App
 
 open Feliz
-open Feliz.Recharts
-open Feliz.Recharts.bar
 open Fss
 open Fss.Types
 open Api
@@ -16,14 +14,14 @@ type Components () =
         let themeState = React.useContext ThemeStore.themeContext
 
         let cardStyle = [
-            Height.value (rem 15)
+            MinHeight.value (rem 15)
             MaxWidth.value (rem 25)
             BackgroundColor.value themeState.Theme.PrimaryColor
             Color.value themeState.Theme.TextColor
             BorderRadius.value (rem 1)
             Display.flex
             FlexDirection.column
-            GridGap.value (rem 1)
+            JustifyContent.spaceBetween
             Padding.value (rem 2, rem 2, rem 2, rem 2)
             
             ! Html.Span [
@@ -31,31 +29,76 @@ type Components () =
             ]
         ]
         
+        let divStyle = [
+            Display.flex
+            FlexDirection.column
+            GridGap.value (rem 1)
+        ]
+        
+        let bottomDivStyle = [
+            Display.flex
+            FlexDirection.row
+            JustifyContent.spaceBetween
+        ]
+        
+        let iconDivStyle = [
+            Display.flex
+            GridGap.value (rem 0.5)
+            AlignItems.center
+        ]
+        
         Html.a [
             prop.href repo.HtmlUrl
             prop.fss cardStyle
             prop.children [
                 Html.div [
-                    prop.fss [ FontSize.xLarge; Display.flex; AlignItems.center; GridGap.value (rem 1) ]
+                    prop.fss divStyle
                     prop.children [
-                        Html.span [
-                            prop.className "fas fa-book"
+                        Html.div [
+                            prop.fss [ FontSize.xLarge; Display.flex; AlignItems.center; GridGap.value (rem 1) ]
+                            prop.children [
+                                Html.span [
+                                    prop.className "fas fa-book"
+                                ]
+                                Html.span [
+                                    prop.fss [ FontSize.xxLarge ]
+                                    prop.text repo.Name
+                                ]       
+                            ]
                         ]
                         Html.span [
-                            prop.fss [ FontSize.xxLarge ]
-                            prop.text repo.Name
-                        ]       
+                            prop.text (match repo.Description with
+                                       | Some desc -> desc
+                                       | None -> "No description")
+                            prop.fss [ FontSize.large ]
+                        ]
                     ]
                 ]
-                Html.span [
-                    prop.text (match repo.Description with
-                               | Some desc -> desc
-                               | None -> "No description")
-                    prop.fss [ FontSize.large ]
-                ]
                 Html.div [
-                    Html.span [
-                        
+                    prop.fss bottomDivStyle
+                    prop.children [
+                        Html.div [
+                            prop.fss iconDivStyle
+                            prop.children [
+                                Html.span [
+                                    prop.className "fas fa-star"
+                                ]
+                                Html.span [
+                                    prop.text (repo.StargazersCount.ToString ())
+                                ]       
+                            ]
+                        ]
+                        Html.div [
+                            prop.fss iconDivStyle
+                            prop.children [
+                                Html.span [
+                                    prop.className "fa-solid fa-code-fork"
+                                ]
+                                Html.span [
+                                    prop.text (repo.ForksCount.ToString ())
+                                ]       
+                            ]
+                        ]
                     ]
                 ]
             ]

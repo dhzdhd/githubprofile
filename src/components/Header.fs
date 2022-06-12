@@ -1,5 +1,6 @@
 ﻿namespace App
 
+open Browser
 open Feliz
 open Feliz.Router
 open Fss
@@ -28,6 +29,7 @@ type Components () =
         let headingStyle = [
             Color.value themeState.Theme.TextColor
             FontSize.xLarge
+            Content.none
             
             Media.query [Types.Media.MinWidth Utils.md] [
                 FontSize.xxLarge
@@ -87,6 +89,7 @@ type Components () =
             prop.children [
                 Html.a [
                     prop.text "Github Profile"
+                    prop.className "fa-brands fa-github-alt"
                     prop.fss headingStyle
                     prop.href "/"
                 ]
