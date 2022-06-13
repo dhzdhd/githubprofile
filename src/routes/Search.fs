@@ -93,6 +93,13 @@ type Routes () =
             GridGap.value (rem 1)
         ]
         
+        let repoGridStyle = [
+            Display.grid
+            GridTemplateColumns.repeat (4, fr 1)
+            GridGap.value (rem 1)
+            
+        ]
+        
         match userInfo with
         | Some res ->
             match res with
@@ -166,7 +173,17 @@ type Routes () =
                         Html.section [
                             prop.id "repos"
                             prop.children [
-                                Components.RepoCard repo.Head 
+                                Html.div [
+                                    prop.fss repoGridStyle
+                                    prop.children (
+                                        match repo.Length with
+                                        | x when x > 10 ->
+                                            repo
+                                            |> List.take 10
+                                            |> List.map Components.RepoCard
+                                        | _ -> repo |> List.map Components.RepoCard
+                                    )
+                                ]
                             ]
                         ]
                     ]

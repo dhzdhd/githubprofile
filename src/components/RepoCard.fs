@@ -61,7 +61,7 @@ type Components () =
                                     prop.className "fas fa-book"
                                 ]
                                 Html.span [
-                                    prop.fss [ FontSize.xxLarge ]
+                                    prop.fss [ FontSize.xxLarge; TextOverflow.clip; Overflow.clip ]
                                     prop.text repo.Name
                                 ]       
                             ]

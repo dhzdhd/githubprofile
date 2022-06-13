@@ -33,17 +33,32 @@ type Components () =
             |> List.filter ( fun e -> e.StargazersCount <> 0 )
             |> List.sortByDescending (fun e -> e.StargazersCount ) 
             |> List.map ( fun e -> { name = e.Name; pv = e.StargazersCount } )
+            
+        let chartDivStyle = [
+            Display.flex
+            FlexDirection.column
+            JustifyContent.center
+            GridGap.value (rem 1)
+            
+            Media.query [Types.Media.MinWidth Utils.md] [
+                FlexDirection.row
+            ]
+        ]
         
         let cardStyle = [
-            MaxWidth.value (rem 25)
-            MinWidth.value (rem 25)
-            MinHeight.value (rem 30)
+            MaxWidth.value (rem 20)
+            MinWidth.value (rem 15)
+            MinHeight.value (rem 25)
             Padding.value (rem 2, rem 2, rem 2, rem 2)
             BackgroundColor.value themeState.Theme.PrimaryColor
             Display.flex
             FlexDirection.column
             GridGap.value (rem 1)
             BorderRadius.value (rem 1)
+            
+            Media.query [Types.Media.MinWidth Utils.md] [
+                MinWidth.value (rem 30)
+            ]
         ]
         
         let headingStyle = [
@@ -79,7 +94,7 @@ type Components () =
                 ])
         
         Html.div [
-            prop.fss [ Display.flex; JustifyContent.center; GridGap.value (rem 1) ]
+            prop.fss chartDivStyle
             prop.children [
                 Html.div [
                     prop.fss cardStyle
@@ -89,17 +104,14 @@ type Components () =
                             prop.fss headingStyle
                         ]
                         Recharts.responsiveContainer [
-                            responsiveContainer.height 400
                             responsiveContainer.chart (Recharts.pieChart [
                                 pieChart.children [
                                     Recharts.tooltip [  ]
                                     Recharts.pie [
                                         pie.data langData
-                                        pie.cx 165
-                                        pie.cy 200
                                         pie.labelLine false
-                                        pie.outerRadius 160
-                                        pie.label renderCustomLabel
+//                                        pie.outerRadius 110
+//                                        pie.label renderCustomLabel
                                         pie.children cells
                                     ]
                                 ]
@@ -115,7 +127,6 @@ type Components () =
                             prop.fss headingStyle
                         ]
                         Recharts.responsiveContainer [
-                            responsiveContainer.height 400
                             responsiveContainer.chart (Recharts.barChart [
                                 barChart.data starredData
                                 barChart.children [
