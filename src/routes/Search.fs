@@ -31,7 +31,7 @@ type Routes () =
         let containerStyle = [
             MinHeight.value (vh 100)
             Width.value (Percent 100)
-            Padding.value (rem 7, rem 3, rem 3, rem 3)
+            Padding.value (rem 7, rem 2, rem 3, rem 2)
             Display.flex
             FlexDirection.column
             GridGap.value (rem 5)
@@ -95,9 +95,20 @@ type Routes () =
         
         let repoGridStyle = [
             Display.grid
-            GridTemplateColumns.repeat (4, fr 1)
+            GridTemplateColumns.repeat (1, fr 1)
             GridGap.value (rem 1)
             
+            Media.query [Types.Media.MinWidth Utils.md] [
+                GridTemplateColumns.repeat (2, fr 1)
+            ]
+            
+            Media.query [Types.Media.MinWidth Utils.lg] [
+                GridTemplateColumns.repeat (3, fr 1)
+            ]
+            
+            Media.query [Types.Media.MinWidth Utils.xl] [
+                GridTemplateColumns.repeat (4, fr 1)
+            ]
         ]
         
         match userInfo with

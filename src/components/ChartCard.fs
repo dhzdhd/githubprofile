@@ -38,6 +38,7 @@ type Components () =
             Display.flex
             FlexDirection.column
             JustifyContent.center
+            AlignItems.center
             GridGap.value (rem 1)
             
             Media.query [Types.Media.MinWidth Utils.md] [
