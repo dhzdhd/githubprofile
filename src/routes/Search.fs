@@ -116,7 +116,7 @@ type Routes () =
                 GridTemplateColumns.repeat (3, fr 1)
             ]
             
-            Media.query [Types.Media.MinWidth Utils.xl] [
+            Media.query [Types.Media.MinWidth Utils.xxl] [
                 GridTemplateColumns.repeat (4, fr 1)
             ]
         ]
@@ -193,7 +193,12 @@ type Routes () =
                         ]
                         Html.section [
                             prop.id "repos"
+                            prop.fss [ Display.flex; FlexDirection.column; GridGap.value (rem 1) ]
                             prop.children [
+                                Html.span [
+                                    prop.fss [ FontSize.xxLarge ]
+                                    prop.text "Repositories"
+                                ]
                                 Html.div [
                                     prop.fss repoGridStyle
                                     prop.children (

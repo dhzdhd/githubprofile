@@ -15,24 +15,30 @@ type Components () =
         
         let headerStyle = [
             Height.value (rem 5)
-            Width.value (vw 100)
+            MaxWidth.value (vw 100)
+            MinWidth.value (vw 100)
             Position.fixed'
             Display.flex
             FlexDirection.row
-            JustifyContent.spaceBetween
             AlignItems.center
             BackgroundColor.value themeState.Theme.PrimaryColor
             Padding.value (rem 0, rem 2)
             ZIndex.value 100
+            
+            Media.query [Types.Media.MinWidth Utils.md] [
+                JustifyContent.spaceBetween
+            ]
         ]
         
         let headingStyle = [
+            Display.none
             Color.value themeState.Theme.TextColor
             FontSize.xLarge
             Content.none
             TextDecoration.none
             
             Media.query [Types.Media.MinWidth Utils.md] [
+                Display.block
                 FontSize.xxLarge
             ]
             
@@ -45,12 +51,24 @@ type Components () =
             Display.flex
             FlexDirection.row
             AlignItems.center
-            JustifyContent.center
+            JustifyContent.spaceBetween
+            GridGap.value (rem 1)
+            Width.value (vw 100)
+            
+            Media.query [Types.Media.MinWidth Utils.md] [
+                JustifyContent.revert
+                Width.revert
+            ]
+        ]
+        
+        let inputContainerStyle = [
+            Display.flex
+            AlignItems.center
         ]
             
         let inputStyle =  [
             Height.value (rem 3)
-            MaxWidth.value (rem 8)
+            MaxWidth.value (rem 13)
             BackgroundColor.value themeState.Theme.SecondaryColor
             Color.value themeState.Theme.TextColor
             Padding.value (rem 0, rem 0.5, rem 0, rem 0.5)
@@ -71,7 +89,7 @@ type Components () =
         
         let searchButtonStyle = [
             Height.value (rem 3)
-            Width.value (rem 3)
+            MinWidth.value (rem 3)
             Border.none
             BorderRadius.value (rem 0, rem 0.5, rem 0.5, rem 0)
             BackgroundColor.value themeState.Theme.AccentColor
@@ -80,7 +98,6 @@ type Components () =
         
         let themeButtonStyle = [
             yield! searchButtonStyle
-            MarginRight.value (rem 1)
             BorderRadius.value (rem 0.5)
         ]
               
@@ -115,19 +132,24 @@ type Components () =
                                 ]
                             ]
                         ]
-                        Html.input [
-                            prop.fss inputStyle
-                            prop.value input
-                            prop.onChange setInput
-                            prop.onKeyPress (fun key ->
-                                if key.which = 13 then Router.navigate ("search", ["user", input]))
-                        ]
-                        Html.button [
-                            prop.fss searchButtonStyle
-                            prop.onClick (fun _ -> Router.navigate ("search", ["user", input]))
+                        Html.div [
+                            prop.fss inputContainerStyle
                             prop.children [
-                                Html.span [
-                                    prop.className "fas fa-search"
+                                Html.input [
+                                    prop.fss inputStyle
+                                    prop.value input
+                                    prop.onChange setInput
+                                    prop.onKeyPress (fun key ->
+                                        if key.which = 13 then Router.navigate ("search", ["user", input]))
+                                ]
+                                Html.button [
+                                    prop.fss searchButtonStyle
+                                    prop.onClick (fun _ -> Router.navigate ("search", ["user", input]))
+                                    prop.children [
+                                        Html.span [
+                                            prop.className "fas fa-search"
+                                        ]
+                                    ]
                                 ]
                             ]
                         ]
