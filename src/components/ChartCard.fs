@@ -58,7 +58,9 @@ type Components () =
             BorderRadius.value (rem 1)
             
             Media.query [Types.Media.MinWidth Utils.md] [
-                MinWidth.value (rem 30)
+                MinWidth.value (rem 20)
+                MaxWidth.value (rem 30)
+                FlexGrow.value 1
             ]
         ]
         
@@ -111,8 +113,6 @@ type Components () =
                                     Recharts.pie [
                                         pie.data langData
                                         pie.labelLine false
-//                                        pie.outerRadius 110
-//                                        pie.label renderCustomLabel
                                         pie.children cells
                                     ]
                                 ]
@@ -132,11 +132,13 @@ type Components () =
                                 barChart.data starredData
                                 barChart.children [
                                     Recharts.cartesianGrid [ cartesianGrid.strokeDasharray(3, 3) ]
-                                    Recharts.xAxis [ xAxis.dataKey (fun point -> point.name) ]
+                                    Recharts.xAxis [
+                                        xAxis.dataKey (fun point -> point.name)
+                                    ]
                                     Recharts.tooltip [ ]
                                     Recharts.bar [
                                         bar.dataKey (fun point -> point.pv)
-                                        bar.fill "#8884d8"
+                                        bar.fill "#fb8500"
                                     ]
                                 ]
                             ])

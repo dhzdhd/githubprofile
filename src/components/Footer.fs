@@ -23,6 +23,10 @@ type Components () =
         let linkStyle = [
             TextDecoration.none
             Color.value themeState.Theme.TextColor
+            
+            Hover [
+                TextDecoration.revert
+            ]
          ]
         
         Html.footer [

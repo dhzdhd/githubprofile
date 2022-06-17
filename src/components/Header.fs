@@ -30,9 +30,14 @@ type Components () =
             Color.value themeState.Theme.TextColor
             FontSize.xLarge
             Content.none
+            TextDecoration.none
             
             Media.query [Types.Media.MinWidth Utils.md] [
                 FontSize.xxLarge
+            ]
+            
+            Hover [
+                TextDecoration.revert
             ]
         ]
             

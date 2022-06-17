@@ -15,6 +15,7 @@ type Components () =
 
         let cardStyle = [
             MinHeight.value (rem 15)
+            MinWidth.value (rem 20)
             BackgroundColor.value themeState.Theme.PrimaryColor
             Color.value themeState.Theme.TextColor
             BorderRadius.value (rem 1)
@@ -22,19 +23,18 @@ type Components () =
             FlexDirection.column
             JustifyContent.spaceBetween
             Padding.value (rem 2, rem 2, rem 2, rem 2)
-            Overflow.clip
+            TextDecoration.none
             
             ! Html.Span [
                 Hover [ TextDecoration.none ]
             ]
-            
-            
         ]
         
         let divStyle = [
             Display.flex
             FlexDirection.column
             GridGap.value (rem 1)
+            Overflow.clip
         ]
         
         let bottomDivStyle = [

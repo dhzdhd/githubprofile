@@ -93,6 +93,16 @@ type Routes () =
             GridGap.value (rem 1)
         ]
         
+        let userNameStyle = [
+            Color.value themeState.Theme.AccentColor
+            FontSize.xxxLarge
+            TextDecoration.none
+            
+            Hover [
+                TextDecoration.revert
+            ]
+        ]
+        
         let repoGridStyle = [
             Display.grid
             GridTemplateColumns.repeat (1, fr 1)
@@ -139,7 +149,7 @@ type Routes () =
                                             prop.fss userContainerStyle
                                             prop.children [
                                                 Html.a [
-                                                    prop.fss [ Color.value themeState.Theme.AccentColor; FontSize.xxxLarge ]
+                                                    prop.fss userNameStyle
                                                     prop.text $"@{user.Login}"
                                                     prop.href user.HtmlUrl
                                                     prop.target "_blank"
