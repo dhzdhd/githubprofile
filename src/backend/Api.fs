@@ -24,6 +24,7 @@ module Api =
           HtmlUrl: string
           Description: Option<string>
           Fork: bool
+          LanguagesUrl: string
           Language: Option<string>
           ForksCount: int
           Archived: bool
@@ -35,7 +36,26 @@ module Api =
     type Error =
         { Message: string
           User: string }
-    
+
+    let getLanguages (url: string) =
+        async {
+            let! response =
+                Http.request url
+                |> Http.method GET
+                |> Http.send
+            
+            match response.content with
+            | ResponseContent.Text rawLang ->
+                // let decodedLang = Decode.fromString (Decode.field "") rawLang
+                // match decodedLang with
+                // | Ok res -> printfn $"{res}"
+                // | _ -> ()
+                ()
+             
+                
+            ()
+        } |> Async.Start
+        
     let getData (user: string) (func: Option<Result<User * List<Repository>, Error>> -> unit) =
         let url = $"https://api.github.com/users/{user}"
         
@@ -57,6 +77,7 @@ module Api =
                 
                 match decodedUser, decodedRepo with
                 | Ok user, Ok repo ->
+                    getLanguages repo.Head.LanguagesUrl
                     func (Some (Ok (user, repo)))
                     printfn $"{user}"
                 | Error errUser, _ ->
