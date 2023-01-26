@@ -107,6 +107,7 @@ type Components () =
                             prop.fss headingStyle
                         ]
                         Recharts.responsiveContainer [
+                            responsiveContainer.minHeight 300
                             responsiveContainer.chart (Recharts.pieChart [
                                 pieChart.children [
                                     Recharts.tooltip [  ]
@@ -128,6 +129,7 @@ type Components () =
                             prop.fss headingStyle
                         ]
                         Recharts.responsiveContainer [
+                            responsiveContainer.minHeight 300
                             responsiveContainer.chart (Recharts.barChart [
                                 barChart.data starredData
                                 barChart.children [
