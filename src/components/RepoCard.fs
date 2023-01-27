@@ -24,6 +24,13 @@ type Components () =
             JustifyContent.spaceBetween
             Padding.value (rem 2, rem 2, rem 2, rem 2)
             TextDecoration.none
+            TransitionDuration.value (ms 200)
+            
+            Hover [
+                Transform.value [
+                    Transform.scale 1.02
+                ]
+            ]
             
             ! Html.Span [
                 Hover [ TextDecoration.none ]
