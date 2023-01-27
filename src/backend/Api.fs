@@ -27,10 +27,11 @@ module Api =
           Fork: bool
           LanguagesUrl: string
           Language: Option<string>
+          OrganizationsUrl: Option<string>
           ForksCount: int
           Archived: bool
           OpenIssuesCount: int
-          Topics: List<string>
+          Topics: Option<List<string>>
           Forks: int
           StargazersCount: int }
       
@@ -99,7 +100,7 @@ module Api =
                 |> Http.send
                 
             let! repoResponse =
-                Http.request (url + "/repos")
+                Http.request (url + "/repos?per_page=100")
                 |> Http.method GET
                 |> Http.send
                 

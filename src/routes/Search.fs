@@ -206,12 +206,9 @@ type Routes () =
                                 Html.div [
                                     prop.fss repoGridStyle
                                     prop.children (
-                                        match repo.Length with
-                                        | x when x > 10 ->
-                                            repo
-                                            |> List.take 10
-                                            |> List.map Components.RepoCard
-                                        | _ -> repo |> List.map Components.RepoCard
+                                        repo
+                                        |> List.sortByDescending (fun e -> e.StargazersCount)
+                                        |> List.map Components.RepoCard
                                     )
                                 ]
                             ]
