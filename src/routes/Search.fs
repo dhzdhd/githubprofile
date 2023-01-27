@@ -10,6 +10,7 @@ type Routes () =
     static member Search userQuery =
         let themeState = React.useContext ThemeStore.themeContext
         let userInfo, setUserInfo = React.useState None
+        let languageMap, setLanguageMap = React.useState None
         
         let effect () =
             match userInfo with
@@ -17,9 +18,12 @@ type Routes () =
                 Api.getData userQuery setUserInfo
             | Some x ->
                 match x with
-                | Ok (info, _) ->
+                | Ok (info, repoList) ->
                     match info.Login with
-                    | x when x.ToLower() = userQuery -> ()
+                    | x when x.ToLower() = userQuery.ToLower() ->
+                        // Explanation in Api.fs
+                        // Api.getLanguages repoList setLanguageMap
+                        ()
                     | _ -> Api.getData userQuery setUserInfo
                 | Error err ->
                     match err.User with

@@ -108,6 +108,7 @@ type Components () =
                         ]
                         Recharts.responsiveContainer [
                             responsiveContainer.minHeight 300
+                            responsiveContainer.minWidth 250
                             responsiveContainer.chart (Recharts.pieChart [
                                 pieChart.children [
                                     Recharts.tooltip [  ]
@@ -130,6 +131,7 @@ type Components () =
                         ]
                         Recharts.responsiveContainer [
                             responsiveContainer.minHeight 300
+                            responsiveContainer.minWidth 250
                             responsiveContainer.chart (Recharts.barChart [
                                 barChart.data starredData
                                 barChart.children [

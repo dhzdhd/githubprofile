@@ -1,6 +1,7 @@
 ﻿namespace App
 
 open Fable.SimpleHttp
+open Fable.SimpleJson
 open Thoth.Json
 
 module Api =
@@ -37,26 +38,58 @@ module Api =
         { Message: string
           User: string }
 
-    let getLanguages (url: string) =
-        async {
-            let! response =
-                Http.request url
-                |> Http.method GET
-                |> Http.send
-            
-            match response.content with
-            | ResponseContent.Text rawLang ->
-                // let decodedLang = Decode.fromString (Decode.field "") rawLang
-                // match decodedLang with
-                // | Ok res -> printfn $"{res}"
-                // | _ -> ()
-                ()
-             
-                
-            ()
-        } |> Async.Start
+    type Lang =
+        { Languages: List<{| Lang: string |}> }
+    
+    let getLanguages (repoList: List<Repository>) (setState: Option<Result<Map<string, int>, Error>> -> unit) =
+        // Works but due to GitHub's insanely high rate limits, not currently viable
         
-    let getData (user: string) (func: Option<Result<User * List<Repository>, Error>> -> unit) =
+        let mutable repoMap = Map.empty
+        
+        repoList |> List.map(fun e -> e.LanguagesUrl) |> List.iter (fun url -> 
+            async {
+                let! response =
+                    Http.request url
+                    |> Http.method GET
+                    |> Http.send
+                
+                printfn $"{response.responseHeaders}"
+                
+                match response.statusCode with
+                | 403 ->
+                    setState (Some (Error { Message = "Rate limited!"; User = "" }))
+                    return ()
+                | _ ->
+                    match response.content with
+                    | ResponseContent.Text rawLang ->
+                        let decodedLang = SimpleJson.tryParse rawLang
+                        match decodedLang with
+                        | Some (JObject dict) ->
+                            let map =
+                                dict |> Map.map (fun _ (value: Json) ->
+                                    match value with
+                                    | JNumber num -> num |> int
+                                    | _ -> 0
+                                )
+                            printfn $"{map}"
+                            map |> Map.map (fun key1 value1 ->
+                                match repoMap.TryFind key1 with
+                                | Some value2 ->
+                                    repoMap <- (repoMap.Remove key1)
+                                    repoMap <- repoMap.Add (key1, value1 + value2)
+                                | None -> repoMap <- repoMap.Add (key1, value1) )
+                            |> ignore
+                        | _ -> ()
+                        ()
+                    | _ -> ()
+            } |> Async.Start
+            
+            match repoMap.IsEmpty with
+            | true -> setState None
+            | false -> setState (Some (Ok repoMap))
+        )
+        
+    let getData (user: string) (setState: Option<Result<User * List<Repository>, Error>> -> unit) =
         let url = $"https://api.github.com/users/{user}"
         
         async {
@@ -77,13 +110,11 @@ module Api =
                 
                 match decodedUser, decodedRepo with
                 | Ok user, Ok repo ->
-                    getLanguages repo.Head.LanguagesUrl
-                    func (Some (Ok (user, repo)))
-                    printfn $"{user}"
+                    setState (Some (Ok (user, repo)))
                 | Error errUser, _ ->
-                    func (Some (Error { Message = errUser; User = user }))
+                    setState (Some (Error { Message = errUser; User = user }))
                 | _, Error errRepo ->
-                    func (Some (Error { Message = errRepo; User = user }))
+                    setState (Some (Error { Message = errRepo; User = user }))
             | _ ->
-                func None
+                setState None
         } |> Async.Start
